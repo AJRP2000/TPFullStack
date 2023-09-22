@@ -41,7 +41,7 @@ const getListaZapatos = async() => {
 };
 
 const getRopa = async (idRopa) => {
-    let ropa = await Ropa.findOne({ _id: idRopa });
+    let ropa = await Ropa.findById(idRopa);
 
     if(ropa!= undefined){
         let direccionArchivo = ropa.nombreArchivo;

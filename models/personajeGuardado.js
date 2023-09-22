@@ -6,6 +6,10 @@ const personajeGuardadoSchema = new Schema({
 		type: String,
 		required: true
 	},
+	idPersonaje: {
+		type: ObjectId,
+		required: true
+	},
 	idRopaSuperior:{
 		type: ObjectId,
 		required:true
@@ -25,5 +29,5 @@ const personajeGuardadoSchema = new Schema({
 });
 
 
-const PersonajeGuardado = mongoose.model('personaje',personajeGuardadoSchema);
+const PersonajeGuardado = mongoose.model('personajeGuardado',personajeGuardadoSchema);
 module.exports = PersonajeGuardado;
