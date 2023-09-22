@@ -5,10 +5,6 @@ const ropaSchema = new Schema({
 		type: String,
 		required: true
 	},
-	id:{
-		type: Number,
-		required:true
-	},
     nombreArchivo : {
         type: String,
         required: true
@@ -16,5 +12,5 @@ const ropaSchema = new Schema({
 });
 
 
-const Ropa = mongoose.model('personaje',ropaSchema);
+const Ropa = mongoose.model('ropa',ropaSchema);
 module.exports = Ropa;

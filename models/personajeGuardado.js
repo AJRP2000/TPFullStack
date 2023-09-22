@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const personajeGuardadoSchema = new Schema({
@@ -6,15 +7,15 @@ const personajeGuardadoSchema = new Schema({
 		required: true
 	},
 	idRopaSuperior:{
-		type: Number,
+		type: ObjectId,
 		required:true
 	},
     idRopaInferior:{
-		type: Number,
+		type: ObjectId,
 		required:true
 	},
     idZapatos:{
-		type: Number,
+		type: ObjectId,
 		required:true
 	},
     fechaCreacion: {

@@ -10,6 +10,7 @@ const uri = process.env.DB_URL;
 /***Instanciar Controllers***/
 const UsrController = require('./controllers/user');
 const PersonajeController = require('./controllers/personaje');
+const RopaController = require('./controllers/ropa');
 
 //**Instanciar variables de Direccion de carpetas**/
 const imagenesFolder = "imagenes";
@@ -53,7 +54,7 @@ app.get("/logIn", async (req, res) => {
 app.get("/listaPersonajes", async(req,res) => {
     const listaPersonajes = await PersonajeController.getListaPersonajes();
     if(listaPersonajes.length > 0){
-        res.json(listaPersonajes);
+        res.status(200).json(listaPersonajes);
     } else{
         res.status(401).json({message: "No se encontraron personajes en la base de datos"});
     }
@@ -61,18 +62,33 @@ app.get("/listaPersonajes", async(req,res) => {
 
 //Endpoint para obtener la lista de ropa superior
 app.get("/listaRopaSuperior", async (req, res) => {
-    
+    const listaRopaSuperior = await RopaController.getListaRopaSuperior();
+    if(listaRopaSuperior.length > 0){
+        res.status(200).json(listaRopaSuperior);
+    } else{
+        res.status(401).json({message: "No se encontro ropa superior en la base de datos"});
+    }
 });
 
 //Endpoint para obtener la lista de ropa inferior
 app.get("/listaRopaInferior", async (req, res) => {
-
+    const listaRopaInferior = await RopaController.getListaRopaInferior();
+    if(listaRopaInferior.length > 0){
+        res.status(200).json(listaRopaInferior);
+    } else{
+        res.status(401).json({message: "No se encontro ropa inferior en la base de datos"});
+    }
 });
 
 
 //Endpoint para obtener la lista de zapatos
 app.get("/listaZapatos", async (req, res) => {
-
+    const listaZapatos = await RopaController.getListaZapatos();
+    if(listaZapatos.length > 0){
+        res.json(listaZapatos);
+    } else{
+        res.status(401).json({message: "No se encontraron zapatos en la base de datos"});
+    }
 });
 
 //Endpoint para obtener un personaje segun su Id
@@ -81,7 +97,7 @@ app.get("/personaje", async (req, res) => {
 
     let direccionArchivo = await PersonajeController.getPersonaje(idPersonaje);
     if(direccionArchivo!=null){
-        res.sendFile(path.join(__dirname, imagenesFolder , personajesFolder , direccionArchivo));
+        res.status(200).sendFile(path.join(__dirname, imagenesFolder , personajesFolder , direccionArchivo));
     }
     else {
         res.status(401).json({message: "Personaje no encontrado."})
@@ -89,21 +105,40 @@ app.get("/personaje", async (req, res) => {
 });
 
 //Endpoint para obtener una prenda superior segun su Id
-app.get("/ropaSuperior/:id", async (req, res) => {
-
+app.get("/ropaSuperior", async (req, res) => {
+    const idRopa = req.query.idRopa;
+    let direccionArchivo = await RopaController.getRopa(idRopa);
+    if(direccionArchivo!=null){
+        res.status(200).sendFile(path.join(__dirname, imagenesFolder , ropaSuperiorFolder , direccionArchivo));
+    }
+    else {
+        res.status(401).json({message: "Ropa Superior no encontrada."})
+    }
 });
 
 //Endpoint para obtener una prenda inferior segun su Id
-app.get("/ropaInferior/:id", async (req, res) => {
-
+app.get("/ropaInferior", async (req, res) => {
+    const idRopa = req.query.idRopa;
+    let direccionArchivo = await RopaController.getRopa(idRopa);
+    if(direccionArchivo!=null){
+        res.status(200).sendFile(path.join(__dirname, imagenesFolder , ropaInferiorFolder , direccionArchivo));
+    }
+    else {
+        res.status(401).json({message: "Ropa Inferior no encontrada."})
+    }
 });
 
 //Endpoint para obtener los zapatos segun su Id
-app.get("/zapatos/:id", async (req, res) => {
-
+app.get("/zapatos", async (req, res) => {
+    const idRopa = req.query.idRopa;
+    let direccionArchivo = await RopaController.getRopa(idRopa);
+    if(direccionArchivo!=null){
+        res.status(200).sendFile(path.join(__dirname, imagenesFolder , zapatosFolder , direccionArchivo));
+    }
+    else {
+        res.status(401).json({message: "Zapatos no encontrados."})
+    }
 });
-
-
 
 //Endpoint para subir el personaje del dia
 app.post("/personajeCreado/:personajeCreado", async (req, res) => {

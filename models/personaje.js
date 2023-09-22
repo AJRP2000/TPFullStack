@@ -5,10 +5,6 @@ const personajeSchema = new Schema({
 		type: String,
 		required: true
 	},
-	idPersonaje:{
-		type: Number,
-		required:true
-	},
     nombreArchivo : {
         type: String,
         required: true
