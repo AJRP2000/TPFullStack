@@ -8,10 +8,12 @@ const PORT = process.env.PORT;
 const uri = process.env.DB_URL;
 
 /***Instanciar Controllers***/
-const UsrController = require('./controllers/user');
 const PersonajeController = require('./controllers/personaje');
 const RopaController = require('./controllers/ropa');
-const PersonajeGuardadoController = require('./controllers/personajeGuardado')
+const PersonajeGuardadoController = require('./controllers/personajeGuardado');
+const AuthController = require('./controllers/auth');
+
+const Middleware = require('./middleware/auth-middleware');
 
 //**Instanciar variables de Direccion de carpetas**/
 const imagenesFolder = "imagenes";
@@ -41,10 +43,10 @@ app.get("/logIn", async (req, res) => {
     const nombre = req.query.nombre;
     const pinNumerico = req.query.pinNumerico;
 
-    let userApproved = await UsrController.getUserByNameAndPassword(nombre, pinNumerico);
+    let userApproved = await AuthController.login(nombre, pinNumerico);
 
     if(userApproved){
-        res.status(200).json({ user: userApproved });
+        res.status(200).json(userApproved);
     }
     else {
         res.status(401).json({ message: "Login fallo" });
@@ -174,7 +176,7 @@ app.get("/zapatos", async (req, res) => {
 });
 
 //Endpoint para subir el personaje del dia
-app.post("/guardarPersonaje", async (req, res) => {
+app.post("/guardarPersonaje", Middleware.verify, async (req, res) => {
     try{
         const personajeGuardado = {
                                     nombreUsuario: req.query.nombreUsuario,
@@ -192,7 +194,7 @@ app.post("/guardarPersonaje", async (req, res) => {
 
 
 //Endpoint para obtener los personajes creados previamente por el usuario
-app.get("/personajesCreadosPorUser", async (req, res) => {
+app.get("/personajesCreadosPorUser", Middleware.verify, async (req, res) => {
     try{
         const nombreUsuario = req.query.nombreUsuario;
         const limit = req.query.limit;
