@@ -6,6 +6,7 @@ Para acceder a ciertos endpoints, debes proporcionar un token de autenticación 
 
 GET /logIn/{nombre}&{pinNumerico}
 Recibe el nombre y el pinNumérico del usuario y retorna el usuario almacenado en la base de datos junto con un token de autenticación que es válido por 1 hora.
+(Para propositos de testing, se cuenta con un usuario llamado TESTING cuyo pin numerico es 1234)
 
 Listas de Elementos
 GET /listaPersonajes
