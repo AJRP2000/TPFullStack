@@ -192,12 +192,26 @@ app.post("/guardarPersonaje", async (req, res) => {
 
 
 //Endpoint para obtener los personajes creados previamente por el usuario
-app.get("/personajesCreadosPorUser/:idUsuario", async (req, res) => {
-
+app.get("/personajesCreadosPorUser", async (req, res) => {
+    try{
+        const nombreUsuario = req.query.nombreUsuario;
+        const limit = req.query.limit;
+        const offset = req.query.offset;
+        let personajesUsuario = await PersonajeGuardadoController.getPersonajesUsuario(nombreUsuario,limit,offset);
+        res.status(200).json(personajesUsuario);
+    }catch(error){
+        res.status(401).json({message: "Ha ocurrido un error: "+ error.message});
+    }
 });
 
 
 //Endpoint para obtener los ultimos 5 personajes creados.
 app.get("/personajesCreadosRecientemente", async (req, res) => {
+    try{
+        let personajesRecientes = await PersonajeGuardadoController.getPersonajesCreadosRecientemente();
+        res.status(200).json(personajesRecientes);
+    }catch(error){
+        res.status(401).json({message: "Ha ocurrido un error: " + error.message});
+    }
 
 });

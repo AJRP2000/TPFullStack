@@ -28,13 +28,30 @@ const guardarPersonaje = async (personajeGuardado) => {
     
 };
 
+const getPersonajesUsuario = async(nombreUsuario, limit, offset) => {
+    const personajes = await PersonajeGuardado.find({nombreUsuario : nombreUsuario}).limit(limit).skip(offset);
+    return personajes;
+};
+
+const getPersonajesCreadosRecientemente = async () => {
+    let arrayPersonajesGuardados = await PersonajeGuardado.find();
+
+    //Sortea el array en orden descendiente segun la fecha Creacion
+    arrayPersonajesGuardados.sort((a, b) => b.fechaCreacion - a.fechaCreacion);
+
+    //Crea un array con solo los primeros 5 records.
+    const arrayPersonajesRecientes = arrayPersonajesGuardados.slice(0,5);
+
+    return arrayPersonajesRecientes;
+};
+
 const _validarPersonaje = async (idPersonaje) => {
     let personaje = await Personaje.findById(idPersonaje)
     if(personaje != undefined)
         return true;
     else
         throw new Error("No se pudo encontrar el personaje.");
-}
+};
 
 const _validarRopa = async (idRopa, tipoRopa) => {
     let ropa = await Ropa.findOne({_id: idRopa, tipoRopa: tipoRopa});
@@ -42,13 +59,13 @@ const _validarRopa = async (idRopa, tipoRopa) => {
         return true;
     else  
         throw new Error("No se pudo encontrar: " + tipoRopa);
-}
+};
 
 const _validarPersonajeDelDia = async (personajeGuardado) => {
-    const personajeGuardadosUsuario = await PersonajeGuardado.find({nombreUsuario: personajeGuardado.nombreUsuario});
+    const arrayPersonajesGuardadosUsuario = await PersonajeGuardado.find({nombreUsuario: personajeGuardado.nombreUsuario});
     let validarFecha = true;
-    for (const item of personajeGuardadosUsuario) {
-        const inputDate = new Date(parseInt(item.fechaCreacion, 10));
+    for (const item of arrayPersonajesGuardadosUsuario) {
+        const inputDate = new Date(item.fechaCreacion);
         const currentDate = new Date();
         
             // Valida si los componentes de la fecha (dia, mes, anio) son los mismos
@@ -59,9 +76,9 @@ const _validarPersonajeDelDia = async (personajeGuardado) => {
         );      
 
         if(isSameDay)
-            validarFecha = false;
+            throw new Error("Este usuario ya creo un personaje hoy.")
     }
     return validarFecha;
-}
+};
 
-module.exports = {guardarPersonaje}
+module.exports = {guardarPersonaje, getPersonajesUsuario, getPersonajesCreadosRecientemente}
