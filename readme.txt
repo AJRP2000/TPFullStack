@@ -35,7 +35,7 @@ GET /zapatos/{idRopa}
 Recibe el idRopa de unos zapatos y retorna la imagen que le corresponde.
 
 Crear Personaje
-POST /guardarPersonaje/{nombreUsuario}&{idRopaSuperior}&{idRopaInferior}&{idZapatos}
+POST /guardarPersonaje/{nombreUsuario}&{idPersonaje}&{idRopaSuperior}&{idRopaInferior}&{idZapatos}
 Recibe el nombreUsuario, el idPersonaje, el idRopaSuperior, el idRopaInferior, el idZapatos, y el token de autenticación en el encabezado. Retorna un mensaje de éxito si es el primer personaje creado por el usuario hoy o un mensaje de error en caso contrario.
 
 Obtener Personajes Creados por Usuario
