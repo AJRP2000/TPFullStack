@@ -1,6 +1,6 @@
 require('mongoose');
 const Usr = require('../models/user');
-
+Usr.createIndexes({ nombre: 1 }, { unique: true });
 
 const addUser = async (nombre, pinNumerico) => {
 
