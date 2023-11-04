@@ -15,13 +15,6 @@ const AuthController = require('./controllers/auth');
 
 const Middleware = require('./middleware/auth-middleware');
 
-//**Instanciar variables de Direccion de carpetas**/
-const imagenesFolder = "imagenes";
-const personajesFolder = "personajes";
-const ropaInferiorFolder = "ropa_inferior";
-const ropaSuperiorFolder = "ropa_superior";
-const zapatosFolder = "zapatos";
-
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -117,7 +110,7 @@ app.get("/personaje", async (req, res) => {
 
         let direccionArchivo = await PersonajeController.getPersonaje(idPersonaje);
         if(direccionArchivo!=null){
-            res.status(200).sendFile(path.join(__dirname, imagenesFolder , personajesFolder , direccionArchivo));
+            res.status(200).json(direccionArchivo);
         }
         else {
             throw new Error("Personaje no encontrado.");
@@ -133,7 +126,7 @@ app.get("/ropaSuperior", async (req, res) => {
         const idRopa = req.query.idRopa;
         let direccionArchivo = await RopaController.getRopa(idRopa);
         if(direccionArchivo!=null){
-            res.status(200).sendFile(path.join(__dirname, imagenesFolder , ropaSuperiorFolder , direccionArchivo));
+            res.status(200).json(direccionArchivo);
         }
         else {
             throw new Error("Ropa Superior no encontrada.");
@@ -149,7 +142,7 @@ app.get("/ropaInferior", async (req, res) => {
         const idRopa = req.query.idRopa;
         let direccionArchivo = await RopaController.getRopa(idRopa);
         if(direccionArchivo!=null){
-            res.status(200).sendFile(path.join(__dirname, imagenesFolder , ropaInferiorFolder , direccionArchivo));
+            res.status(200).sendFile(direccionArchivo);
         }
         else {
             throw new Error("Ropa Inferior no encontrada.");
@@ -165,7 +158,7 @@ app.get("/zapatos", async (req, res) => {
         const idRopa = req.query.idRopa;
         let direccionArchivo = await RopaController.getRopa(idRopa);
         if(direccionArchivo!=null){
-            res.status(200).sendFile(path.join(__dirname, imagenesFolder , zapatosFolder , direccionArchivo));
+            res.status(200).sendFile(direccionArchivo);
         }
         else {
             throw new Error("Zapatos no encontrados.");
