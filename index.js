@@ -142,7 +142,7 @@ app.get("/ropaInferior", async (req, res) => {
         const idRopa = req.query.idRopa;
         let direccionArchivo = await RopaController.getRopa(idRopa);
         if(direccionArchivo!=null){
-            res.status(200).sendFile(direccionArchivo);
+            res.status(200).json(direccionArchivo);
         }
         else {
             throw new Error("Ropa Inferior no encontrada.");
@@ -158,7 +158,7 @@ app.get("/zapatos", async (req, res) => {
         const idRopa = req.query.idRopa;
         let direccionArchivo = await RopaController.getRopa(idRopa);
         if(direccionArchivo!=null){
-            res.status(200).sendFile(direccionArchivo);
+            res.status(200).json(direccionArchivo);
         }
         else {
             throw new Error("Zapatos no encontrados.");
