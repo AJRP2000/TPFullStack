@@ -14,16 +14,10 @@ const getPersonaje = async (idPersonaje) => {
 };
 
 const getListaPersonajes = async() => {
-    let listaPersonajes = await Personaje.find();
-    let arrayPersonajes = [];
-    for(let i = 0; i < listaPersonajes.length; i++){
-        arrayPersonajes[i] = {
-                                idPersonaje : listaPersonajes[i]._id,
-                                nombre: listaPersonajes[i].nombre
-                            };
-    }
+    let listaPersonajes = await Personaje.find();                
+    
 
-    return arrayPersonajes;
+    return listaPersonajes;
 };
 
 module.exports = {getPersonaje, getListaPersonajes}

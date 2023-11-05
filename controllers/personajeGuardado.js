@@ -8,7 +8,7 @@ const guardarPersonaje = async (personajeGuardado) => {
     let archivoRopaSuperior = await _validarRopa(personajeGuardado.idRopaSuperior, "Ropa Superior");
     let archivoRopaInferior = await _validarRopa(personajeGuardado.idRopaInferior, "Ropa Inferior");
     let archivoZapatos = await _validarRopa(personajeGuardado.idZapatos, "Zapato");
-    let isFechaValida = await _validarPersonajeDelDia(personajeGuardado);
+    let isFechaValida = await validarPersonajeDelDia(personajeGuardado.nombreUsuario);
 
     if(archivoPersonaje && archivoRopaSuperior && archivoRopaInferior && archivoZapatos && isFechaValida){
         const personajeObjeto = new PersonajeGuardado(
@@ -65,8 +65,8 @@ const _validarRopa = async (idRopa, tipoRopa) => {
         throw new Error("No se pudo encontrar: " + tipoRopa);
 };
 
-const _validarPersonajeDelDia = async (personajeGuardado) => {
-    const arrayPersonajesGuardadosUsuario = await PersonajeGuardado.find({nombreUsuario: personajeGuardado.nombreUsuario});
+const validarPersonajeDelDia = async (nombreUsuario) => {
+    const arrayPersonajesGuardadosUsuario = await PersonajeGuardado.find({nombreUsuario: nombreUsuario});
     let validarFecha = true;
     for (const item of arrayPersonajesGuardadosUsuario) {
         const inputDate = new Date(item.fechaCreacion);
