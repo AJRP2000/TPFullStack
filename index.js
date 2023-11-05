@@ -3,6 +3,8 @@ const app = express();
 const mongoose = require("mongoose");
 const http = require("http").createServer(app);
 const path = require('path'); 
+const cors = require("cors"); // Require the 'cors' package
+
 require('dotenv').config();
 const PORT = process.env.PORT;
 const uri = process.env.DB_URL;
@@ -23,7 +25,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(express.json());
-
+app.use(cors());
 
 http.listen(PORT, () => {
     console.log(`listening to ${PORT}`);
