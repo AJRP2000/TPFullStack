@@ -10,17 +10,33 @@ const personajeGuardadoSchema = new Schema({
 		type: ObjectId,
 		required: true
 	},
+	archivoPersonaje: {
+		type: String,
+		required: true
+	},
 	idRopaSuperior:{
 		type: ObjectId,
 		required:true
+	},
+	archivoRopaSuperior: {
+		type: String,
+		required: true
 	},
     idRopaInferior:{
 		type: ObjectId,
 		required:true
 	},
+	archivoRopaInferior: {
+		type: String,
+		required: true
+	},
     idZapatos:{
 		type: ObjectId,
 		required:true
+	},
+	archivoZapatos: {
+		type: String,
+		required: true
 	},
     fechaCreacion: {
         type: Date,

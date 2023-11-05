@@ -4,20 +4,24 @@ const Personaje = require('../models/personaje');
 const Ropa = require('../models/ropa');
 
 const guardarPersonaje = async (personajeGuardado) => {
-    let isPersonajeValido = await _validarPersonaje(personajeGuardado.idPersonaje);
-    let isRopaSuperiorValida = await _validarRopa(personajeGuardado.idRopaSuperior, "Ropa Superior");
-    let isRopaInferiorValida = await _validarRopa(personajeGuardado.idRopaInferior, "Ropa Inferior");
-    let isZapatosValido = await _validarRopa(personajeGuardado.idZapatos, "Zapato");
+    let archivoPersonaje = await _validarPersonaje(personajeGuardado.idPersonaje);
+    let archivoRopaSuperior = await _validarRopa(personajeGuardado.idRopaSuperior, "Ropa Superior");
+    let archivoRopaInferior = await _validarRopa(personajeGuardado.idRopaInferior, "Ropa Inferior");
+    let archivoZapatos = await _validarRopa(personajeGuardado.idZapatos, "Zapato");
     let isFechaValida = await _validarPersonajeDelDia(personajeGuardado);
 
-    if(isPersonajeValido && isRopaSuperiorValida && isRopaInferiorValida && isZapatosValido && isFechaValida){
+    if(archivoPersonaje && archivoRopaSuperior && archivoRopaInferior && archivoZapatos && isFechaValida){
         const personajeObjeto = new PersonajeGuardado(
             {
                 nombreUsuario : personajeGuardado.nombreUsuario,
                 idPersonaje : personajeGuardado.idPersonaje,
+                archivoPersonaje : archivoPersonaje,
                 idRopaSuperior : personajeGuardado.idRopaSuperior,
+                archivoRopaSuperior : archivoRopaSuperior,
                 idRopaInferior : personajeGuardado.idRopaInferior,
+                archivoRopaInferior: archivoRopaInferior,
                 idZapatos : personajeGuardado.idZapatos,
+                archivoZapatos : archivoZapatos,
                 fechaCreacion : new Date()
             }
         );
@@ -48,7 +52,7 @@ const getPersonajesCreadosRecientemente = async () => {
 const _validarPersonaje = async (idPersonaje) => {
     let personaje = await Personaje.findById(idPersonaje)
     if(personaje != undefined)
-        return true;
+        return personaje.nombreArchivo;
     else
         throw new Error("No se pudo encontrar el personaje.");
 };
@@ -56,7 +60,7 @@ const _validarPersonaje = async (idPersonaje) => {
 const _validarRopa = async (idRopa, tipoRopa) => {
     let ropa = await Ropa.findOne({_id: idRopa, tipoRopa: tipoRopa});
     if(ropa != undefined)
-        return true;
+        return ropa.nombreArchivo;
     else  
         throw new Error("No se pudo encontrar: " + tipoRopa);
 };
