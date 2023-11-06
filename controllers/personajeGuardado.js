@@ -85,4 +85,4 @@ const validarPersonajeDelDia = async (nombreUsuario) => {
     return validarFecha;
 };
 
-module.exports = {guardarPersonaje, getPersonajesUsuario, getPersonajesCreadosRecientemente}
+module.exports = {guardarPersonaje, getPersonajesUsuario, getPersonajesCreadosRecientemente, validarPersonajeDelDia}
